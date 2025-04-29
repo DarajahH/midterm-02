@@ -7,8 +7,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.BiFunction;
 
-// TODO: import the necessary classes for the following code to work.
-
 
 public class Midterm2 {
 
@@ -23,13 +21,14 @@ public class Midterm2 {
             this.name = name;
             this.age = age;
         }
+        
       @Override
-      
-      
+      public String toString() {
+    	  
+    	return name + "[" + age + "yrs.]";
+      }
       
     }
-    
-    
 
     /**
      * Merges two collections of different types into a new collection using a BiFunction.
@@ -43,6 +42,7 @@ public class Midterm2 {
      * @return A new collection containing the merged elements
      * @throws IllegalArgumentException if the collections have different sizes
      */
+    
     public static <T, S, R> List<R> mergeCollections(
     	    Collection<T> firstCollection,
             Collection<S> secondCollection,
@@ -50,15 +50,15 @@ public class Midterm2 {
 
         if (firstCollection.size() != secondCollection.size()) {
             throw new IllegalArgumentException(
-                    "Collections must have the same size for element-wise merging. " +
+                    "Collections needs to have the same size for merging. " +
                             "First collection size: " + firstCollection.size() +
                             ", Second collection size: " + secondCollection.size());
         }
 
-        List<R> result = new ArrayList<>(firstCollection.size());
+        	List<R> result = new ArrayList<>(firstCollection.size());
 
-        T[] firstArray = (T[]) firstCollection.toArray();
-        S[] secondArray = (S[]) secondCollection.toArray();
+        		T[] firstArray = (T[]) firstCollection.toArray();
+        		S[] secondArray = (S[]) secondCollection.toArray();
 
         for (int i = 0; i < firstArray.length; i++) {
             result.add(mergeFunction.apply(firstArray[i], secondArray[i]));
@@ -72,27 +72,30 @@ public class Midterm2 {
      * Alternative implementation that doesn't require equal-sized collections.
      * Instead, it pairs elements until one collection is exhausted.
      */
+    
     public static <T, S, R> List<R> zipCollections(
             Collection<T> firstCollection,
             Collection<S> secondCollection,
             BiFunction<T, S, R> mergeFunction) {
 
-        int minSize = Math.min(firstCollection.size(), secondCollection.size());
-        List<R> result = new ArrayList<>(minSize);
+    	int minSize = Math.min(firstCollection.size(), secondCollection.size());
+        	List<R> mResult = new ArrayList<>(minSize);
 
-        Iterator<T> firstIterator = firstCollection.iterator();
-        Iterator<S> secondIterator = secondCollection.iterator();
+        	Iterator<T> firstIterator = firstCollection.iterator();
+        	Iterator<S> secondIterator = secondCollection.iterator();
+        
+    while (firstIterator.hasNext() && secondIterator.hasNext()) {
+        		T firstElement = firstIterator.next();
+        		S secondElement = secondIterator.next();
 
-        while (firstIterator.hasNext() && secondIterator.hasNext()) {
-            T firstElement = firstIterator.next();
-            S secondElement = secondIterator.next();
-
-            result.add(mergeFunction.apply(firstElement, secondElement));
+            mResult.add(mergeFunction.apply(firstElement, secondElement));
         }
 
-        return result;
+        return mResult;
     }
 
+    //Main
+    
     public static void main(String[] args) {
         // Example 1: Merging numbers and strings
         List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
